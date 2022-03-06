@@ -73,17 +73,20 @@ def set_next_mode_keyboard():
 def set_next_mode_raw_hid():
     with open('/dev/hidraw0', 'rb') as raw_keybow:
         color = None
+        print("there it begins")
         while color is None:
-            print("Available modes\n"
+            """print("Available modes\n"
                   "Red -> r\n"
                   "Green -> g\n"
                   "Blue -> b\n"
                   "Ukrainian -> u\n"
                   "Classic -> c\n"
-                  "choose wisely...")
-            buffer = raw_keybow.read(8)
+                  "choose wisely...")"""
+            buffer = raw_keybow.read(16)
 
-            print(buffer)
+            for c in buffer:
+                print(c)
+            print("----")
             key = "yo"
             if key == "r":
                 color = Color.RED
@@ -96,7 +99,7 @@ def set_next_mode_raw_hid():
             elif key == "c":
                 color = Color.CLASSIC
             else:
-                print(f"{key} is not a valid code")
+                pass # print(f"{key} is not a valid code")
 
         print(f"chose {color}")
         write_config(CONFIG_FILE_NAME, {GIF_COLOR: color.name})
