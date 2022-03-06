@@ -1,6 +1,5 @@
 import json
 from enum import Enum, auto
-import sys
 
 CONFIG_FILE_NAME = "/home/pi/Pimoroni/unicornhathd/examples/traffic-light/light-config.json"
 
