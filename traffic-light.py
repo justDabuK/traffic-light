@@ -94,29 +94,29 @@ def help():
 def draw_animation(image):
     # this is the original pimoroni function for drawing sprites
     try:
-        while True:
-            for o_x in range(int(image.size[0] / width)):
+        for o_x in range(int(image.size[0] / width)):
 
-                for o_y in range(int(image.size[1] / height)):
+            for o_y in range(int(image.size[1] / height)):
 
-                    valid = False
+                valid = False
 
-                    for x in range(width):
+                for x in range(width):
 
-                        for y in range(height):
-                            pixel = image.getpixel(((o_x * width) + y, (o_y * height) + x))
-                            r, g, b = int(pixel[0]), int(pixel[1]), int(pixel[2])
-                            if r or g or b:
-                                valid = True
-                            unicorn.set_pixel(x, y, r, g, b)
+                    for y in range(height):
+                        pixel = image.getpixel(((o_x * width) + y, (o_y * height) + x))
+                        r, g, b = int(pixel[0]), int(pixel[1]), int(pixel[2])
+                        if r or g or b:
+                            valid = True
+                        unicorn.set_pixel(x, y, r, g, b)
 
-                    if valid:
-                        unicorn.show()
-                        time.sleep(cycle_time)
+                if valid:
+                    unicorn.show()
+                    time.sleep(cycle_time)
 
     except KeyboardInterrupt:
         print("registered keyboard interrupt, will turn off unicorn hat")
         unicorn.off()
+        raise KeyboardInterrupt
 
 
 def loop():
@@ -170,17 +170,19 @@ def traffic_light():
 
 def endless_traffic_light():
     try:
-        file_to_draw = to_gif_name(LightConfig(read_config(CONFIG_FILE_NAME)).gif_color)
-        print('Drawing Image: {}'.format(file_to_draw))
+        while True:
+            file_to_draw = to_gif_name(LightConfig(read_config(CONFIG_FILE_NAME)).gif_color)
+            print('Drawing Image: {}'.format(file_to_draw))
 
-        img = Image.open(folder_path + file_to_draw)
+            img = Image.open(folder_path + file_to_draw)
 
-        draw_animation(img)
-        unicorn.off()
-
+            draw_animation(img)
+            unicorn.off()
 
     except IndexError:
         help()
+    except KeyboardInterrupt:
+        print("loop ended by KeyboardInterrupt")
 
 
 if __name__ == '__main__':
