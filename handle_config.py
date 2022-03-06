@@ -87,6 +87,8 @@ def set_next_mode_raw_hid():
                   "Ukrainian -> u\n"
                   "Classic -> c\n"
                   "choose wisely...")"""
+            # TODO find out what integer stands for what key
+            #   - then adjust the poormans switch statement accordingly
             print(get_actual_code(raw_keybow.read(16)))
 
             print("----")
