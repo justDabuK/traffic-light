@@ -83,4 +83,5 @@ def to_gif_name(color):
 
 
 if __name__ == "__main__":
-    print(to_gif_name(LightConfig(read_config(CONFIG_FILE_NAME)).gif_color))
+    while True:
+        set_next_mode()
