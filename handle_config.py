@@ -1,5 +1,6 @@
 import json
 from enum import Enum, auto
+import sys
 
 CONFIG_FILE_NAME = "/home/pi/Pimoroni/unicornhathd/examples/traffic-light/light-config.json"
 
@@ -41,7 +42,7 @@ def write_config(filename, config_data):
         json.dump(config_data, config_file)
 
 
-def set_next_mode():
+def set_next_mode_keyboard():
     color = None
     while color is None:
         print("Available modes\n"
@@ -69,6 +70,37 @@ def set_next_mode():
     write_config(CONFIG_FILE_NAME, {GIF_COLOR: color.name})
 
 
+def set_next_mode_raw_hid():
+    with open('/dev/hidraw0', 'rb') as raw_keybow:
+        color = None
+        while color is None:
+            print("Available modes\n"
+                  "Red -> r\n"
+                  "Green -> g\n"
+                  "Blue -> b\n"
+                  "Ukrainian -> u\n"
+                  "Classic -> c\n"
+                  "choose wisely...")
+            buffer = raw_keybow.read(8)
+
+            print(buffer)
+            key = "yo"
+            if key == "r":
+                color = Color.RED
+            elif key == "g":
+                color = Color.GREEN
+            elif key == "b":
+                color = Color.BLUE
+            elif key == "u":
+                color = Color.UKRAINIAN
+            elif key == "c":
+                color = Color.CLASSIC
+            else:
+                print(f"{key} is not a valid code")
+
+        print(f"chose {color}")
+        write_config(CONFIG_FILE_NAME, {GIF_COLOR: color.name})
+
 color_file_map = {
     Color.RED: "red_pimoroni.png",
     Color.BLUE: "blue_pimoroni.png",
@@ -84,4 +116,4 @@ def to_gif_name(color):
 
 if __name__ == "__main__":
     while True:
-        set_next_mode()
+        set_next_mode_raw_hid()
