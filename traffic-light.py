@@ -186,4 +186,4 @@ def endless_traffic_light():
 
 
 if __name__ == '__main__':
-    traffic_light()
+    endless_traffic_light()

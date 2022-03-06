@@ -1,7 +1,7 @@
 import json
 from enum import Enum, auto
 
-CONFIG_FILE_NAME = "light-config.json"
+CONFIG_FILE_NAME = "/home/pi/Pimoroni/unicornhathd/examples/traffic-light/light-config.json"
 
 GIF_COLOR = "gif_color"
 
