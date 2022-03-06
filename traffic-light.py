@@ -46,6 +46,8 @@ import os
 import time
 from sys import exit, argv
 
+from handle_config import to_gif_name, LightConfig, read_config, CONFIG_FILE_NAME
+
 try:
     from PIL import Image
 except ImportError:
@@ -113,11 +115,11 @@ def draw_animation(image):
                         time.sleep(cycle_time)
 
     except KeyboardInterrupt:
+        print("registered keyboard interrupt, will turn off unicorn hat")
         unicorn.off()
 
 
 def loop():
-
     print('Looping through all images in folder {}\n'
           'CRL+C to skip image'.format(folder_path))
 
@@ -143,7 +145,7 @@ def loop():
     unicorn.off()
 
 
-def weather_icons():
+def traffic_light():
     try:
 
         if argv[1] == 'loop':
@@ -166,5 +168,20 @@ def weather_icons():
         help()
 
 
+def endless_traffic_light():
+    try:
+        file_to_draw = to_gif_name(LightConfig(read_config(CONFIG_FILE_NAME)).gif_color)
+        print('Drawing Image: {}'.format(file_to_draw))
+
+        img = Image.open(folder_path + file_to_draw)
+
+        draw_animation(img)
+        unicorn.off()
+
+
+    except IndexError:
+        help()
+
+
 if __name__ == '__main__':
-    weather_icons()
+    traffic_light()
