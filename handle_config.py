@@ -70,6 +70,12 @@ def set_next_mode_keyboard():
     write_config(CONFIG_FILE_NAME, {GIF_COLOR: color.name})
 
 
+def get_actual_code(buffer):
+    for byte in buffer:
+        if byte > 1:
+            return byte
+
+
 def set_next_mode_raw_hid():
     with open('/dev/hidraw0', 'rb') as raw_keybow:
         color = None
@@ -82,10 +88,8 @@ def set_next_mode_raw_hid():
                   "Ukrainian -> u\n"
                   "Classic -> c\n"
                   "choose wisely...")"""
-            buffer = raw_keybow.read(16)
+            print(get_actual_code(raw_keybow.read(16)))
 
-            for c in buffer:
-                print(c)
             print("----")
             key = "yo"
             if key == "r":
@@ -99,10 +103,11 @@ def set_next_mode_raw_hid():
             elif key == "c":
                 color = Color.CLASSIC
             else:
-                pass # print(f"{key} is not a valid code")
+                pass  # print(f"{key} is not a valid code")
 
         print(f"chose {color}")
         write_config(CONFIG_FILE_NAME, {GIF_COLOR: color.name})
+
 
 color_file_map = {
     Color.RED: "red_pimoroni.png",
